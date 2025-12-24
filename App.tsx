@@ -68,7 +68,7 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen flex flex-col bg-[#f4f1ea] overflow-hidden text-[#1a1a1a]">
-      {/* 顶部导航 - 更轻量 */}
+      {/* 顶部导航 */}
       <nav className="flex-none px-12 py-5 flex justify-between items-center z-50">
         <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('home')}>
           <TaijiIcon size={32} animate={false} />
@@ -92,21 +92,15 @@ const App: React.FC = () => {
         {activeTab === 'home' && (
           <div className="flex-1 flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-700">
             <div className="w-full flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24">
-              
-              {/* 左侧：阴 (竖排感) */}
               <div className="hidden lg:flex flex-col items-end gap-6 border-r border-black/5 pr-12 py-4">
                 <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">YIN · 弊</h4>
                 {latestEntry?.weaknessTags.map((tag, i) => (
                   <div key={i} className="text-4xl font-light serif-font opacity-40 hover:opacity-100 transition-all cursor-default writing-vertical">{tag}</div>
                 ))}
               </div>
-
-              {/* 中间：标准太极图 - 动态缩放 */}
               <div className="flex-none max-w-[25vh] lg:max-w-none">
                 <TaijiIcon size={Math.min(window.innerHeight * 0.35, 340)} />
               </div>
-
-              {/* 右侧：阳 (竖排感) */}
               <div className="hidden lg:flex flex-col items-start gap-6 border-l border-black/5 pl-12 py-4">
                 <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">YANG · 优</h4>
                 {latestEntry?.strengthTags.map((tag, i) => (
@@ -114,8 +108,6 @@ const App: React.FC = () => {
                 ))}
               </div>
             </div>
-
-            {/* 智慧寄语 - 紧凑设计 */}
             <div className="mt-12 w-full max-w-2xl bg-white/30 backdrop-blur-sm p-8 rounded-[3rem] text-center border border-white/20 shadow-xl">
               <p className="text-lg lg:text-xl serif-font italic leading-relaxed text-gray-700">
                 “{latestEntry?.aiWisdom || '大道至简，行而不辍。'}”
@@ -132,12 +124,12 @@ const App: React.FC = () => {
         )}
 
         {activeTab === 'reflect' && (
-          <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full animate-in slide-in-from-bottom-4 duration-500 overflow-hidden">
+          <div className="flex-1 flex flex-col max-w-5xl mx-auto w-full animate-in slide-in-from-bottom-4 duration-500 overflow-hidden">
             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 min-h-0">
               <div className="flex flex-col">
                 <h3 className="flex-none text-[10px] font-bold tracking-widest uppercase mb-3 opacity-40">阴之卷 · 察己之过</h3>
                 <textarea 
-                  className="flex-1 bg-white/40 border border-black/5 rounded-[2rem] p-6 focus:bg-white transition-all outline-none text-base serif-font leading-relaxed resize-none custom-scrollbar"
+                  className="flex-1 bg-white/40 border border-black/5 rounded-[2.5rem] p-8 focus:bg-white transition-all outline-none text-base serif-font leading-relaxed resize-none custom-scrollbar"
                   placeholder="反思今日之不足..."
                   value={currentYin}
                   onChange={(e) => setCurrentYin(e.target.value)}
@@ -146,7 +138,7 @@ const App: React.FC = () => {
               <div className="flex flex-col">
                 <h3 className="flex-none text-[10px] font-bold tracking-widest uppercase mb-3 opacity-40">阳之卷 · 励己之行</h3>
                 <textarea 
-                  className="flex-1 bg-black text-white rounded-[2rem] p-6 focus:ring-4 focus:ring-black/5 outline-none text-base serif-font leading-relaxed resize-none custom-scrollbar"
+                  className="flex-1 bg-black text-white rounded-[2.5rem] p-8 focus:ring-4 focus:ring-black/5 outline-none text-base serif-font leading-relaxed resize-none custom-scrollbar shadow-2xl"
                   placeholder="记录今日之进取..."
                   value={currentYang}
                   onChange={(e) => setCurrentYang(e.target.value)}
@@ -154,28 +146,37 @@ const App: React.FC = () => {
               </div>
             </div>
             
-            <div className="flex-none mt-6 bg-white/60 p-6 rounded-[2.5rem] flex flex-col md:flex-row gap-8 items-center border border-white/40">
-               <div className="flex-1 grid grid-cols-4 gap-4 w-full">
+            {/* 底部滑块控制区 - 深度优化布局 */}
+            <div className="flex-none mt-6 bg-white/60 p-4 lg:p-6 rounded-[3rem] flex flex-col lg:flex-row gap-6 items-center border border-white/80 shadow-sm">
+               <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-4 w-full px-4">
                  {Object.values(LifePillar).map(pillar => (
-                   <div key={pillar} className="flex flex-col items-center">
-                     <span className="text-[9px] font-bold mb-1 opacity-50">{pillar}</span>
+                   <div key={pillar} className="flex flex-col gap-3">
+                     <div className="flex justify-between items-center">
+                       <span className="text-[11px] font-bold serif-font opacity-60 tracking-tighter">{pillar}</span>
+                       <span className="text-[10px] font-mono opacity-30">{scores[pillar]}</span>
+                     </div>
                      <input 
                        type="range" min="1" max="10" 
-                       className="w-full accent-black h-1" 
                        value={scores[pillar]}
                        onChange={(e) => setScores({ ...scores, [pillar]: parseInt(e.target.value) })}
                      />
                    </div>
                  ))}
                </div>
-               <button 
-                 onClick={handleReflect}
-                 disabled={isAnalyzing || !currentYin || !currentYang}
-                 className="flex-none w-full md:w-auto px-10 py-4 bg-black text-white rounded-full font-bold hover:scale-105 transition disabled:opacity-30 shadow-xl flex items-center justify-center gap-3"
-               >
-                 {isAnalyzing ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : null}
-                 <span>{isAnalyzing ? "格物中" : "入格"}</span>
-               </button>
+               <div className="flex-none w-full lg:w-auto lg:border-l lg:border-black/5 lg:pl-8">
+                 <button 
+                   onClick={handleReflect}
+                   disabled={isAnalyzing || !currentYin || !currentYang}
+                   className="group relative w-full lg:w-36 py-4 bg-[#1a1a1a] text-white rounded-[2rem] font-bold transition-all hover:bg-black active:scale-95 disabled:opacity-20 disabled:active:scale-100 flex items-center justify-center gap-3 overflow-hidden"
+                 >
+                   <div className={`absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none`}></div>
+                   {isAnalyzing ? (
+                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                   ) : (
+                     <span className="relative z-10 serif-font text-lg tracking-widest">入格</span>
+                   )}
+                 </button>
+               </div>
             </div>
           </div>
         )}
@@ -183,7 +184,7 @@ const App: React.FC = () => {
         {activeTab === 'history' && (
           <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full animate-in fade-in duration-500 overflow-hidden">
             <header className="flex-none flex justify-between items-center mb-6">
-               <h2 className="text-2xl font-bold serif-font">功过往昔</h2>
+               <h2 className="text-2xl font-bold serif-font italic">功过往昔</h2>
                <div className="w-32 h-8">
                  <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={chartData}>

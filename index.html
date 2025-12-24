@@ -47,6 +47,52 @@
             background: #1a1a1a22;
             border-radius: 10px;
         }
+
+        /* 自定义 Range 样式 */
+        input[type=range] {
+          -webkit-appearance: none;
+          width: 100%;
+          background: transparent;
+        }
+        input[type=range]:focus {
+          outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 2px;
+          cursor: pointer;
+          background: rgba(26, 26, 26, 0.1);
+          border-radius: 1px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+          height: 18px;
+          width: 18px;
+          border-radius: 50%;
+          background: #1a1a1a;
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: -8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          transition: transform 0.2s ease;
+        }
+        input[type=range]:active::-webkit-slider-thumb {
+          transform: scale(1.2);
+        }
+        input[type=range]::-moz-range-track {
+          width: 100%;
+          height: 2px;
+          cursor: pointer;
+          background: rgba(26, 26, 26, 0.1);
+          border-radius: 1px;
+        }
+        input[type=range]::-moz-range-thumb {
+          height: 18px;
+          width: 18px;
+          border-radius: 50%;
+          background: #1a1a1a;
+          cursor: pointer;
+          border: none;
+        }
     </style>
 <script type="importmap">
 {
